@@ -35,9 +35,9 @@ def get(url, headers=None):
     return response
 
 
-def valid_url(links):
-    if isinstance(links, list) and len(links) > 2000:
-        raise ValueError('数值超出上限，单次提交URL上限为2000条')
+def valid_amount(links, amount=2000):
+    if isinstance(links, list) and len(links) > amount:
+        raise ValueError('数值超出上限，单次提交URL上限为%s条' % amount)
 
 
 def push_of_javascript(url, **kwargs):
@@ -65,7 +65,7 @@ def push_realtime_for_pc(links, site, token, action='urls', **kwargs):
     :param token: token
     :return: HTTP Response
     """
-    valid_url(links)
+    valid_amount(links)
 
     assert all([site, token])
 
@@ -86,7 +86,7 @@ def batch_of_mobile(links: list, appid, token, **kwargs):
     :param links: 链接列表，单次最多2000条
     :return: HTTP Response
     """
-    valid_url(links)
+    valid_amount(links)
     assert all([appid, token])
     url = f'http://data.zz.baidu.com/urls?appid={appid}&token={token}&type=batch'
     headers = {
